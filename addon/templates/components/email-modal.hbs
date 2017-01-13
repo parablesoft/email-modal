@@ -1,0 +1,50 @@
+<button class="btn btn-primary" {{action "openModal"}}>{{trigger-text}}</button>
+{{#if isShowing}}
+{{#bs-modal footer=false autoClose=false closeAction=(action "closeModal") size="lg" header=false}}
+  {{#bs-modal-header}}
+    <h3>{{title}}</h3>
+  {{/bs-modal-header}}
+  {{#bs-modal-body}}
+  {{#bs-form action=(action "sendEmail" model=model)}}
+  <div class="row">
+    <div class="col-md-8">
+      <div style="width:85%;">
+	{{bs-form-element controlType="text" value=to placeholder="Enter an email address" autofocus=true label="To" }}
+      </div>
+      <div style="width:85%;">
+	{{bs-form-element controlType="text" value=cc label="CC" placeholder="Enter an email address" }}
+      </div>
+      <div style="width:85%;">
+	{{bs-form-element controlType="text" value=subject label="Subject" placeholder="Enter a subject for this email" }}
+      </div>
+      <div style="width:85%;" class="form-group">
+	<label for="inputBody">Message</label>
+	{{textarea class="form-control" value=message id="inputBody" rows="8"}}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+	{{#if hasBlock}}
+	{{yield}}
+	{{/if}}
+      </div>
+    </div>
+  </div>
+  {{/bs-form}}
+  {{/bs-modal-body}}
+  {{#bs-modal-footer as |footer|}}
+    {{#async-button action=(action "sendEmail" model) class="btn btn-primary" as |component state|}}
+    	{{#if state.isDefault}}
+	  {{action-button-default-text}}
+	{{/if}}
+	{{#if state.isPending}}
+	  {{fa-icon "spinner" spin=true}} {{action-button-pending-text}}
+	{{/if}}
+	{{#if state.isFulfilled}}
+	    {{action-button-fulfilled-text}}
+	{{/if}}
+    {{/async-button}}
+    or <a href="#" {{action "closeModal"}}>cancel</a>
+  {{/bs-modal-footer}}
+{{/bs-modal}}
+{{/if}}

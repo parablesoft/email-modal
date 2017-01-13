@@ -1,0 +1,1 @@
+export { default } from 'email-modal/components/email-modal';

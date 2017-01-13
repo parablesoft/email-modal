@@ -2,5 +2,8 @@
 'use strict';
 
 module.exports = {
-  name: 'email-modal'
+  name: 'email-modal',
+  isDevelopingAddon: function() {
+    return true;
+  }
 };
