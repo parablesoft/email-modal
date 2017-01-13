@@ -9,6 +9,6 @@ module.exports = {
   //   };
   // }
   afterInstall: function(options) {
-    return addAddonsToProject("ember-bootstrap","ember-font-awesome","ember-async-button");
+    return this.addAddonsToProject("ember-bootstrap","ember-font-awesome","ember-async-button");
   }
 };
