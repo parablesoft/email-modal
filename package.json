@@ -1,6 +1,6 @@
 {
   "name": "email-modal",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "WIP: Ember addon which has an uses a bootstrap modal for sending an email.",
   "directories": {
     "doc": "doc",
