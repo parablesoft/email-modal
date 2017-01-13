@@ -1,4 +1,7 @@
-<button class="btn btn-primary" {{action "openModal"}}>{{trigger-text}}</button>
+<button class="{{trigger-classes}}" {{action "openModal"}}>
+  {{#if trigger-icon}}{{fa-icon trigger-icon}} {{/if}}
+  {{trigger-text}}
+</button>
 {{#if isShowing}}
 {{#bs-modal footer=false autoClose=false closeAction=(action "closeModal") size="lg" header=false}}
   {{#bs-modal-header}}

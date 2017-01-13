@@ -14,6 +14,9 @@ export default Component.extend({
   title: "Send Message",
   subject: "",
   message: "",
+  "trigger-text": TRIGGER_TEXT,
+  "trigger-classes": "btn btn-primary",
+  "trigger-icon": "",
   to: "",
   "close-on-send": false,
   "action-button-default-text": "Send",
@@ -25,7 +28,6 @@ export default Component.extend({
        this.attrs[ON_CLOSE_ATTR]();
     }
   },
-  "trigger-text": TRIGGER_TEXT,
   actions:{
     openModal(){
       this.toggleModal();
