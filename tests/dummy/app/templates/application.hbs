@@ -5,17 +5,25 @@
 	<h4>
 	  Passing in a block
 	</h4>
-	{{#email-modal trigger-text="Send Message" on-send-email=(action "asyncSendEmail")}}
+	<button class="btn btn-primary" {{action "openModal" "isShowingFirstModal"}}>Send!</button>
+	{{#if isShowingFirstModal}}
+	{{#email-modal  
+	on-close=(action "closeModal" "isShowingFirstModal")
+	on-send-email=(action "asyncSendEmail")}}
 	Extra content that you want to display!
 	{{/email-modal}}
+	{{/if}}
       </div>
       <hr>
       <div>
 	<h4>Simple</h4>
+	<button class="btn btn-primary" {{action "openModal" "isShowingSecondModal"}}>Send!</button>
+	{{#if isShowingSecondModal}}
 	{{email-modal 
 	close-on-send=true
-	on-close=(action "closeModal")
+	on-close=(action "closeModal" "isShowingSecondModal")
 	on-send-email=(action "asyncSendEmail")}}
+	{{/if}}
       </div>
     </div>
   </div>

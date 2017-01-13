@@ -1,9 +1,4 @@
-<button class="{{trigger-classes}}" {{action "openModal"}}>
-  {{#if trigger-icon}}{{fa-icon trigger-icon}} {{/if}}
-  {{trigger-text}}
-</button>
-{{#if isShowing}}
-{{#bs-modal footer=false autoClose=false closeAction=(action "closeModal") size="lg" header=false}}
+{{#bs-modal tagName="" footer=false autoClose=false closeAction=(action "closeModal") size="lg" body=false header=false}}
   {{#bs-modal-header}}
     <h3>{{title}}</h3>
   {{/bs-modal-header}}
@@ -50,4 +45,3 @@
     or <a href="#" {{action "closeModal"}}>cancel</a>
   {{/bs-modal-footer}}
 {{/bs-modal}}
-{{/if}}

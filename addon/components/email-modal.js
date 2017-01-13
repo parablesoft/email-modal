@@ -3,37 +3,28 @@ import layout from '../templates/components/email-modal';
 
 const {get,set,Component} = Ember;
 
-const TRIGGER_TEXT = "Send an email";
 const ON_CLOSE_ATTR = "on-close";
 const ON_SEND_ATTR = "on-send-email";
 
 
 export default Component.extend({
   layout,
-  isShowing:false,
   title: "Send Message",
   subject: "",
   message: "",
-  "trigger-text": TRIGGER_TEXT,
-  "trigger-classes": "btn btn-primary",
-  "trigger-icon": "",
   to: "",
   "close-on-send": false,
   "action-button-default-text": "Send",
   "action-button-fulfilled-text": "Sent!",
   "action-button-pending-text": "Sending...",
-  toggleModal(show=true){
-    set(this,"isShowing",show);
-    if(!show && this.attrs[ON_CLOSE_ATTR] != undefined){
+  closeModal(close=true){
+    if(close && this.attrs[ON_CLOSE_ATTR] != undefined){
        this.attrs[ON_CLOSE_ATTR]();
     }
   },
   actions:{
-    openModal(){
-      this.toggleModal();
-    },
     closeModal(){
-     this.toggleModal(false);
+     this.closeModal();
     },
     sendEmail(model){
       let closeOnSend = get(this,"close-on-send");
@@ -41,11 +32,11 @@ export default Component.extend({
 	let {to,cc,subject,message} = this.getProperties("to","cc","subject","message");
 	let action = this.attrs[ON_SEND_ATTR](model,to,cc,subject,message);
 	if(action===undefined){
-	  this.toggleModal(!closeOnSend);
+	  this.closeModal(closeOnSend);
 	  return resolve();
 	}
 	return action.then(()=>{
-	  this.toggleModal(!closeOnSend);
+	  this.closeModal(closeOnSend);
 	  resolve();
 	},()=>{
 	  reject();
