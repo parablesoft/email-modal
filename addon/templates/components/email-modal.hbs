@@ -1,4 +1,4 @@
-{{#bs-modal tagName="" footer=false autoClose=false closeAction=(action "closeModal") size="lg" body=false header=false as |modal|}}
+{{#bs-modal tagName="" footer=false autoClose=false onHidden=(action "closeModal") closeAction=(action "closeModal") size="lg" body=false header=false as |modal|}}
   {{#modal.header}}
     <h3>{{title}}</h3>
   {{/modal.header}}
