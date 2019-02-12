@@ -52,12 +52,12 @@ export default Component.extend({
 
       try {
         await action(model, to, cc, subject, message)
-        this.closeModal(closeOnSend)
         this.set('buttonState', 'fulfilled')
+        this.closeModal(closeOnSend)
       } catch(e) {
+        this.set('buttonState', 'default')
         console.log(e)
         alert("There was an error sending the email, please try again.")
-        this.set('buttonState', 'error')
       }
 
     }
