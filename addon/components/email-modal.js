@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import layout from '../templates/components/email-modal';
 
-const {get,set,Component} = Ember;
+const {get, set, Component} = Ember;
 
 const ON_CLOSE_ATTR = "on-close";
 const ON_SEND_ATTR = "on-send-email";
-
 
 export default Component.extend({
   layout,
@@ -17,31 +16,50 @@ export default Component.extend({
   "action-button-default-text": "Send",
   "action-button-fulfilled-text": "Sent!",
   "action-button-pending-text": "Sending...",
-  closeModal(close=true){
-    if(close && this.attrs[ON_CLOSE_ATTR] != undefined){
-       this.attrs[ON_CLOSE_ATTR]();
+
+  buttonState: 'default',
+
+  closeModal(close = true) {
+    if (close && this.attrs[ON_CLOSE_ATTR] != undefined) {
+      this.attrs[ON_CLOSE_ATTR]();
     }
   },
-  actions:{
-    closeModal(){
-     this.closeModal();
+
+  isDefault: Ember.computed.equal("buttonState", 'default'),
+  isPending: Ember.computed.equal("buttonState", 'pending'),
+  isFulfilled: Ember.computed.equal("buttonState", 'fulfilled'),
+
+  actions: {
+
+    closeModal() {
+      this.closeModal();
     },
-    sendEmail(model){
-      let closeOnSend = get(this,"close-on-send");
-      return new Ember.RSVP.Promise((resolve,reject)=>{
-	let {to,cc,subject,message} = this.getProperties("to","cc","subject","message");
-	let action = this.attrs[ON_SEND_ATTR](model,to,cc,subject,message);
-	if(action===undefined){
-	  this.closeModal(closeOnSend);
-	  return resolve();
-	}
-	return action.then(()=>{
-	  this.closeModal(closeOnSend);
-	  resolve();
-	},()=>{
-	  reject();
-	});
-      });
-    },
+
+    async sendEmail(model) {
+      this.set('buttonState', 'pending')
+
+      let closeOnSend = this.get("close-on-send")
+      let {to, cc, subject, message} = this.getProperties(
+        "to", "cc", "subject", "message"
+      )
+
+      let action = this.attrs[ON_SEND_ATTR]
+
+      if (action === undefined) {
+        this.closeModal(closeOnSend);
+        this.set('buttonState', 'fulfilled')
+      }
+
+      try {
+        await action(model, to, cc, subject, message)
+        this.set('buttonState', 'fulfilled')
+        this.closeModal(closeOnSend)
+      } catch(e) {
+        this.set('buttonState', 'default')
+        console.log(e)
+        alert("There was an error sending the email, please try again.")
+      }
+
+    }
   }
 });

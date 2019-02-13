@@ -31,17 +31,26 @@
   {{/bs-form}}
   {{/modal.body}}
   {{#modal.footer as |footer|}}
-    {{#async-button action=(action "sendEmail" model) class="btn btn-primary" as |component state|}}
-    	{{#if state.isDefault}}
-	  {{action-button-default-text}}
-	{{/if}}
-	{{#if state.isPending}}
-	  {{fa-icon "spinner" spin=true}} {{action-button-pending-text}}
-	{{/if}}
-	{{#if state.isFulfilled}}
-	    {{action-button-fulfilled-text}}
-	{{/if}}
-    {{/async-button}}
+
+    <button type="submit"
+      class="btn btn-primary"
+      {{action "sendEmail" model}}
+      disabled={{isPending}}>
+
+    	{{#if isDefault}}
+    	  {{action-button-default-text}}
+    	{{/if}}
+
+    	{{#if isPending}}
+    	  {{fa-icon "spinner" spin=true}} {{action-button-pending-text}}
+    	{{/if}}
+
+    	{{#if isFulfilled}}
+    	    {{action-button-fulfilled-text}}
+    	{{/if}}
+
+    </button>
+
     or <a href="#" {{action "closeModal"}}>cancel</a>
   {{/modal.footer}}
 {{/bs-modal}}
